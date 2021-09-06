@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { Image } from 'next/image'
+import Image from 'next/image'
 import { Center, Heading, VStack, HStack, Text, Button, ButtonGroup, Divider, Badge } from '@chakra-ui/react'
 import { ArrowForwardIcon } from '@chakra-ui/icons'
 import SupaIcon from '../public/supabase-logo-icon.png'
@@ -24,10 +24,18 @@ export default function Home() {
               <Button size='lg'>Star on github</Button>
             </ButtonGroup>
             <HStack>
-              <Image src={SupaIcon} width='5px' height='5px' />
-              <Text>Signups powerd by supabase</Text>
+              <Image src={SupaIcon} width='15px' height='15px' />
+              <Text paddingTop="2.5px">Signups powerd by supabase</Text>
             </HStack>
           </VStack>
+        </Center>
+        <Center width='100vw' height='100vh'>
+          <HStack padding="10%">
+            <VStack spacing="24px">
+              <Heading>Star a repo right from your app</Heading>
+              <Text>Deliver a frictionless starring experience, right from your app. Gone are the days of clicking more than once to star a repo ;).</Text>
+            </VStack>
+          </HStack>
         </Center>
       </main>
     </div>
