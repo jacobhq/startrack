@@ -16,7 +16,7 @@ export default function Home() {
         <Center width='100vw' height='100vh'>
           <VStack spacing='24px' padding='10%'>
             <Heading size='xl'>Ready to go?</Heading>
-            <Text>Here's how to get started.</Text>
+            <Text>Here&apos;s how to get started.</Text>
             <Divider />
             <VStack>
                 <Input placeholder="Github username" />
