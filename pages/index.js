@@ -29,7 +29,7 @@ export default function Home() {
             </HStack>
           </VStack>
         </Center>
-        <Center width='100vw' height='100vh'>
+        <Center width='100vw' height='100vh' hidden>
           <HStack padding="10%">
             <VStack spacing="24px">
               <Heading>Star a repo right from your app</Heading>
