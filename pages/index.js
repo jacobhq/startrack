@@ -30,10 +30,10 @@ export default function Home() {
             <Text>Create visual feedback in your app, based on wether your github repo is starred.</Text>
             <Divider />
             <ButtonGroup>
-              <Link href="/signup">
-                <Button size='lg' colorScheme='red' rightIcon={<ArrowForwardIcon />} isLoading={loading} onClick={startLoading}>Sign up</Button>
+              <Link href="/add-app">
+                <Button size='lg' colorScheme='red' rightIcon={<ArrowForwardIcon />} isLoading={loading} onClick={startLoading}>Add your app</Button>
               </Link>
-              <Button size='lg'>Star on github</Button>
+              <Button size='lg'>Sign up</Button>
             </ButtonGroup>
             <HStack>
               <Image src={SupaIcon} width='15px' height='15px' />
