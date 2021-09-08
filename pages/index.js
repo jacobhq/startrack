@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link'
 import { Center, Heading, VStack, HStack, Text, Button, ButtonGroup, Divider, Badge } from '@chakra-ui/react'
 import { ArrowForwardIcon } from '@chakra-ui/icons'
 import SupaIcon from '../public/supabase-logo-icon.png'
@@ -20,7 +21,9 @@ export default function Home() {
             <Text>Create visual feedback in your app, based on wether your github repo is starred.</Text>
             <Divider />
             <ButtonGroup>
-              <Button size='lg' colorScheme='red' rightIcon={<ArrowForwardIcon />}>Sign up</Button>
+              <Link href="/signup">
+                <Button size='lg' colorScheme='red' rightIcon={<ArrowForwardIcon />}>Sign up</Button>
+              </Link>
               <Button size='lg'>Star on github</Button>
             </ButtonGroup>
             <HStack>

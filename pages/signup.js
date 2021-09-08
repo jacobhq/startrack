@@ -1,9 +1,10 @@
 import Head from 'next/head'
-import Image from 'next/image'
-import { Center, Heading, VStack, HStack, Text, Button, ButtonGroup, Divider, Input, Textarea } from '@chakra-ui/react'
-import { ArrowForwardIcon } from '@chakra-ui/icons'
+import Link from 'next/link'
+import { Center, Heading, VStack, HStack, Text, Button, ButtonGroup, Divider, Input, Textarea, IconButton, useColorMode } from '@chakra-ui/react'
+import Nav from '../components/nav'
 
 export default function Home() {
+
   return (
     <div>
       <Head>
@@ -13,6 +14,7 @@ export default function Home() {
       </Head>
 
       <main>
+        <Nav />
         <Center width='100vw' height='100vh'>
           <VStack spacing='24px' padding='10%'>
             <Heading size='xl'>Ready to go?</Heading>
