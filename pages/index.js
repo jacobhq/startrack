@@ -37,7 +37,7 @@ export default function Home() {
             </ButtonGroup>
             <HStack>
               <Image src={SupaIcon} width='15px' height='15px' />
-              <Text paddingTop="2.5px">Signups powerd by supabase</Text>
+              <Text paddingTop="2.5px">App powerd by supabase</Text>
             </HStack>
           </VStack>
         </Center>
