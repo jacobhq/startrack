@@ -14,8 +14,8 @@ function Nav({ router }) {
             </Link> : <div></div>}
             {router.pathname === '/' ? <ButtonGroup>
                 <Button variant="ghost">Startrack</Button>
-                <Button variant="ghost">GitHub</Button>
-                <Button variant="ghost">Twitter</Button>
+                <Button variant="ghost">Login</Button>
+                <Button variant="ghost">Signup</Button>
             </ButtonGroup> : <div></div>}
             <IconButton isRound variant="ghost" size="lg" icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />} onClick={toggleColorMode} />
         </HStack>

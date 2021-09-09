@@ -5,9 +5,21 @@ import { Center, Heading, VStack, HStack, Text, Button, ButtonGroup, Divider, Ba
 import { ArrowForwardIcon } from '@chakra-ui/icons'
 import SupaIcon from '../public/supabase-logo-icon.png'
 import Nav from '../components/nav'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { supabase } from '../utils/supabaseClient'
 
 export default function Home() {
+  const [session, setSession] = useState(null)
+
+  useEffect(() => {
+    setSession(supabase.auth.session())
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session)
+    })
+  }, [])
+
+
   let [loading, setLoading] = useState(false)
 
   function startLoading() {
@@ -33,7 +45,9 @@ export default function Home() {
               <Link href="/add-app">
                 <Button size='lg' colorScheme='red' rightIcon={<ArrowForwardIcon />} isLoading={loading} onClick={startLoading}>Add your app</Button>
               </Link>
-              <Button size='lg'>Sign up</Button>
+              <Link href="/signup">
+                <Button size='lg'>Sign up</Button>
+              </Link>
             </ButtonGroup>
             <HStack>
               <Image src={SupaIcon} width='15px' height='15px' />
