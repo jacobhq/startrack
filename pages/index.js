@@ -45,9 +45,11 @@ export default function Home() {
               <Link href="/add-app">
                 <Button size='lg' colorScheme='red' rightIcon={<ArrowForwardIcon />} isLoading={loading} onClick={startLoading}>Add your app</Button>
               </Link>
-              <Link href="/signup">
+              {!session ? <Link href="/signup">
                 <Button size='lg'>Sign up</Button>
-              </Link>
+              </Link> : <Link href="/account">
+                <Button size='lg'>Account</Button>
+              </Link>}
             </ButtonGroup>
             <HStack>
               <Image src={SupaIcon} width='15px' height='15px' />
