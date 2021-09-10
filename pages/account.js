@@ -1,6 +1,7 @@
 import { supabase } from "../utils/supabaseClient";
 import { useState, useEffect } from "react";
 import { withRouter } from "next/router";
+import { Center } from '@chakra-ui/react'
 
 function account({ router }) {
     const [session, setSession] = useState(null)
@@ -16,7 +17,9 @@ function account({ router }) {
     }, [])
 
     return (
-        <div>HI</div>
+        <Center>
+            
+        </Center>
     )
 }
 

@@ -9,8 +9,12 @@ import { supabase } from '../utils/supabaseClient'
 async function signInWithGithub() {
     const { user, session, error } = await supabase.auth.signIn({
       provider: 'github'
+    }, {
+        scopes: 'public_repo'
     });
   }
+
+  export const oAuthToken = session.provider_token // use to access provider API
 
 export default function Signup() {
 
