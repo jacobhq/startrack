@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { withRouter } from "next/router";
 import { Center } from '@chakra-ui/react'
 
-function account({ router }) {
+function Account({ router }) {
     const [session, setSession] = useState(null)
 
     useEffect(() => {
@@ -23,4 +23,4 @@ function account({ router }) {
     )
 }
 
-export default withRouter(account)
+export default withRouter(Account)
