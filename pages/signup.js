@@ -6,15 +6,16 @@ import { useState } from 'react'
 import { CheckCircleIcon, CheckIcon, InfoOutlineIcon, ArrowForwardIcon } from '@chakra-ui/icons'
 import { supabase } from '../utils/supabaseClient'
 
+export var oAuthToken
+
 async function signInWithGithub() {
     const { user, session, error } = await supabase.auth.signIn({
       provider: 'github'
     }, {
         scopes: 'public_repo'
     });
+    oAuthToken = session.provider_token // use to access provider API
   }
-
-  export const oAuthToken = session.provider_token // use to access provider API
 
 export default function Signup() {
 
