@@ -4,23 +4,19 @@ import { Center, Heading, VStack, HStack, Text, Button, ButtonGroup, Divider, In
 import Nav from '../components/nav'
 import { useState } from 'react'
 import { CheckCircleIcon, CheckIcon, InfoOutlineIcon, ArrowForwardIcon } from '@chakra-ui/icons'
-import { supabase } from '../utils/supabaseClient'
-
-export var oAuthToken
-
-async function signInWithGithub() {
-    const { user, session, error } = await supabase.auth.signIn({
-      provider: 'github'
-    }, {
-        scopes: 'public_repo'
-    });
-    oAuthToken = session.provider_token // use to access provider API
-  }
+import { signIn } from "next-auth/react"
 
 export default function Signup() {
 
     let [email, setEmail] = useState('')
     let [passoword, setPassoword] = useState('')
+    let [loading, setLoading] = useState(false)
+
+    function auth(e) {
+        e.preventDefault()
+        setLoading(true)
+        signIn('github')
+    }
 
     return (
         <div>
@@ -38,7 +34,7 @@ export default function Signup() {
                         <Divider />
                         <VStack>
                             <ButtonGroup>
-                                <Button colorScheme="red" rightIcon={<ArrowForwardIcon />} onClick={signInWithGithub}>Continue with GitHub</Button>
+                                <Button colorScheme="red" rightIcon={<ArrowForwardIcon />} onClick={(e) => auth(e)} as="a" href={`/api/auth/signin`}>Continue with GitHub</Button>
                             </ButtonGroup>
                         </VStack>
                     </VStack>

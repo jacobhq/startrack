@@ -1,25 +1,15 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Center, Heading, VStack, HStack, Text, Button, ButtonGroup, Divider, Badge } from '@chakra-ui/react'
+import { Center, Heading, VStack, HStack, Text, Button, ButtonGroup, Divider, Avatar } from '@chakra-ui/react'
 import { ArrowForwardIcon } from '@chakra-ui/icons'
-import SupaIcon from '../public/supabase-logo-icon.png'
+import profilePhoto from '../public/profile.png'
 import Nav from '../components/nav'
 import { useState, useEffect } from 'react'
-import { supabase } from '../utils/supabaseClient'
+import { useSession, signIn, signOut } from "next-auth/react"
 
 export default function Home() {
-  const [session, setSession] = useState(null)
-
-  useEffect(() => {
-    setSession(supabase.auth.session())
-
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session)
-    })
-  }, [])
-
-
+  const { data: session } = useSession()
   let [loading, setLoading] = useState(false)
 
   function startLoading() {
@@ -52,8 +42,8 @@ export default function Home() {
               </Link>}
             </ButtonGroup>
             <HStack>
-              <Image src={SupaIcon} width='15px' height='15px' />
-              <Text paddingTop="2.5px">App powerd by supabase</Text>
+              <Avatar src="./profile.png" width='25px' height='25px'/>
+              <Text paddingTop="2.5px">App by JacobHQ</Text>
             </HStack>
           </VStack>
         </Center>

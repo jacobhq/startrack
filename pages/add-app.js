@@ -10,6 +10,9 @@ export default function Home() {
     let [ghUser, setUser] = useState('')
     let [ghRepo, setRepo] = useState('')
 
+    let ghProcUser = ghUser !== '' ? ghUser : '[github username]'
+    let ghProcRepo = ghRepo !== '' ? ghRepo : '[github repo]'
+    
     return (
         <div>
             <Head>
@@ -28,7 +31,7 @@ export default function Home() {
                         <VStack>
                             <Input placeholder="Github username" value={ghUser} onChange={e => setUser(e.target.value)} />
                             <Input placeholder="Github repo name" value={ghRepo} onChange={e => setRepo(e.target.value)} />
-                            <Textarea placeholder="Here is a sample placeholder" backgroundColor="blackAlpha.800" resize="none" border="none" color="white" focusBorderColor="transparent" readOnly value={'github.com/' + ghUser + '/' + ghRepo} />
+                            <Textarea placeholder="Here is a sample placeholder" backgroundColor="blackAlpha.800" resize="none" border="none" color="white" focusBorderColor="transparent" readOnly value={'github.com/' + ghProcUser + '/' + ghProcRepo} />
                             <ButtonGroup>
                                 <Button>Copy to clipboard</Button>
                             </ButtonGroup>
@@ -39,3 +42,16 @@ export default function Home() {
         </div>
     )
 }
+
+export const getServerSideProps = async (context) => {
+    const result = await fetch('https://3000-lavender-horse-riyet74h.ws-eu18.gitpod.io/api/a/b', {
+       method: 'GET',
+       headers: {
+         'Content-Type': 'application/json',
+         cookie: context.req.headers.cookie,
+       },
+     })
+     console.log(result)
+     return {props: {result: result.toString()}}
+   }
+   
