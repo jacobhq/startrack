@@ -21,7 +21,11 @@ import {
   AlertDescription,
 } from "@chakra-ui/react"
 import useSWR from 'swr'
+import { Octokit } from "@octokit/rest";
+import { getSession } from "next-auth/react"
+import axios from 'axios';
 
+const octokit = new Octokit();
 const fetcher = (...args) => fetch(...args).then(res => res.json())
 
 function Repo(query) {
@@ -30,8 +34,8 @@ function Repo(query) {
 
   if (error) return <Alert status="error" rounded="md">
     <AlertIcon />
-    <AlertTitle mr={2}>Your browser is outdated!</AlertTitle>
-    <AlertDescription>Your Chakra experience may be degraded.</AlertDescription>
+    <AlertTitle mr={2}>Failed to load repo card</AlertTitle>
+    <AlertDescription>Try again later...</AlertDescription>
   </Alert>
   if (!data) return <Box p="5" borderWidth="1px" rounded="md">
     <Skeleton>
@@ -47,12 +51,19 @@ function Repo(query) {
 
   // render data
   return <Box p="5" borderWidth="1px" rounded="md">
-  <Heading size="md" mb="10px">{data.name}</Heading>
-  <Text mb="20px">{data.description ? data.description : 'No description provided'}</Text>
-  <Text as="i">This repo was created by {data.owner.login}</Text>
-</Box>
+    <Heading size="md" mb="10px">{data.name}</Heading>
+    <Text mb="20px">{data.description ? data.description : 'No description provided'}</Text>
+    <Text as="i">This repo was created by {data.owner.login}</Text>
+  </Box>
 }
 
+async function star(query) {
+  console.log(query)
+  const { data } = await axios.get('/api/' + query[0] + '/' + query[1], {
+    withCredentials: true,
+  });
+  console.log(data)
+}
 
 const Comment = () => {
   const router = useRouter()
@@ -80,7 +91,7 @@ const Comment = () => {
             <ModalFooter>
               <ButtonGroup>
                 <Button variant="ghost">Back</Button>
-                <Button colorScheme="yellow">
+                <Button colorScheme="yellow" onClick={() => star(slug)}>
                   Star
                 </Button>
               </ButtonGroup>
