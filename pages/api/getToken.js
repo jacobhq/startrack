@@ -7,7 +7,7 @@ export default async (req, res) => {
   const token = await getToken({ req, secret })
   if (token) {
     // Signed in
-    res.json(token.accessToken)
+    res.json({token: token.accessToken})
   } else {
     // Not Signed in
     res.status(401)
