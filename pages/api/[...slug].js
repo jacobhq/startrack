@@ -1,16 +1,24 @@
-import { getToken } from 'next-auth/jwt';
+import { getSession } from 'next-auth/react'
 import { Octokit } from "@octokit/rest";
-import { useRouter } from 'next/router'
+import axios from 'axios';
+import { useState } from 'react';
+let token
 
-const secret = process.env.SECRET;
-let accessToken;
+async function getToken () {
+  await axios.get('/api/getToken').then(function (res) {
+    token = res
+  })
+}
 
 export default async (req, res) => {
-  const token = await getToken({ req, secret });
-  const id = req.query
-  const octokit = new Octokit();
-  console.log(token)
-  accessToken = token.accessToken;
+  const session = await getSession({ req });
+
+  getToken()
+
+  const {id} = req.query
+  const octokit = new Octokit({
+    auth: token
+  });
 
   const data = await octokit.request('PUT /user/starred/{owner}/{repo}', {
     owner: id[0],

@@ -24,13 +24,14 @@ import useSWR from 'swr'
 import { Octokit } from "@octokit/rest";
 import { getSession } from "next-auth/react"
 import axios from 'axios';
+import { getToken } from 'next-auth/jwt';
+import { useState } from 'react';
 
 const octokit = new Octokit();
 const fetcher = (...args) => fetch(...args).then(res => res.json())
 
 function Repo(query) {
   const { data, error } = useSWR('https://api.github.com/repos/' + query.query[0] + '/' + query.query[1], fetcher)
-  console.log(data)
 
   if (error) return <Alert status="error" rounded="md">
     <AlertIcon />
@@ -70,6 +71,11 @@ const Comment = () => {
   const slug = router.query.slug || []
   const { isOpen, onOpen, onClose } = useDisclosure({ 'defaultIsOpen': true })
   const fetcher = (...args) => fetch(...args).then(res => res.json())
+  let [token, setToken] = useState()
+  axios.get('/api/getToken').then(function (res) {
+    setToken(res)
+  })
+  console.log(token)
 
   return (
     <>

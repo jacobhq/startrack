@@ -33,13 +33,11 @@ export default function Home() {
             <Divider />
             <ButtonGroup>
               <Link href="/add-app">
-                <Button size='lg' colorScheme='red' rightIcon={<ArrowForwardIcon />} isLoading={loading} onClick={startLoading}>Add your app</Button>
+                <Button size='lg' colorScheme='yellow' rightIcon={<ArrowForwardIcon />} isLoading={loading} onClick={startLoading}>Add your app</Button>
               </Link>
               {!session ? <Link href="/signup">
                 <Button size='lg'>Sign up</Button>
-              </Link> : <Link href="/account">
-                <Button size='lg'>Account</Button>
-              </Link>}
+              </Link> : <Button size='lg' onClick={signOut}>Logout</Button>}
             </ButtonGroup>
             <HStack>
               <Avatar src="./profile.png" width='25px' height='25px'/>

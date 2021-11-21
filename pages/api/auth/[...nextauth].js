@@ -3,30 +3,26 @@ import GithubProvider from "next-auth/providers/github"
 
 export default NextAuth({
   // Configure one or more authentication providers
-  debug: true,
+  debug: false,
+  session: { jwt: true },
+  jwt: {
+    secret: process.env.SECRET
+  },
+  secret: process.env.SECRET,
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
-      authorization: { params: {scope: 'public_repo' } },
+      authorization: { params: { scope: 'public_repo' } },
     }),
     // ...add more providers here
   ],
   callbacks: {
-    async jwt(token, user, account = {}, profile, isNewUser) {
-      if ( account.provider && !token[account.provider] ) {
-        token[account.provider] = {};
+    jwt({ token, account }) {
+      if(account) {
+        token.accessToken = account.access_token
       }
-
-      if ( account.accessToken ) {
-        token[account.provider].accessToken = account.accessToken;
-      }
-
-      if ( account.refreshToken ) {
-        token[account.provider].refreshToken = account.refreshToken;
-      }
-
-      return token;
-    },
+      return token
+    }    
   }
 })

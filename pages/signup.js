@@ -34,7 +34,7 @@ export default function Signup() {
                         <Divider />
                         <VStack>
                             <ButtonGroup>
-                                <Button colorScheme="red" rightIcon={<ArrowForwardIcon />} onClick={(e) => auth(e)} as="a" href={`/api/auth/signin`}>Continue with GitHub</Button>
+                                <Button colorScheme="yellow" rightIcon={<ArrowForwardIcon />} onClick={(e) => auth(e)} as="a" href={`/api/auth/signin`}>Continue with GitHub</Button>
                             </ButtonGroup>
                         </VStack>
                     </VStack>
