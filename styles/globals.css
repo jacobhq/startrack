@@ -1,3 +1,16 @@
+:root {
+  --gap: 1rem;
+  --big-gap: 4rem;
+  --main-content: 45rem;
+}
+
 html {
   overflow-x: hidden;
+}
+
+.container {
+  max-width: var(--main-content);
+    margin: 0 auto;
+    padding: 0 var(--gap);
+    padding-top: var(--gap);
 }

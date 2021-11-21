@@ -24,15 +24,15 @@ export default function Home() {
             <main>
                 <Nav />
                 <Center width='100vw' height='100vh' padding='0'>
-                    <VStack spacing='24px' padding='10%'>
+                    <VStack spacing='24px' padding='0%' minWidth="25%">
                         <Heading size='xl'>Ready to go?</Heading>
                         <Text>Here&apos;s how to get started.</Text>
                         <Divider />
-                        <VStack>
+                        <VStack width="100%">
                             <Input colorScheme='yellow' placeholder="Github username" value={ghUser} onChange={e => setUser(e.target.value)} />
                             <Input colorScheme='yellow' placeholder="Github repo name" value={ghRepo} onChange={e => setRepo(e.target.value)} />
                         </VStack>
-                        <Tabs colorScheme="yellow">
+                        <Tabs colorScheme="yellow" width="100%">
                             <TabList>
                                 <Tab>Link</Tab>
                                 <Tab>API</Tab>
