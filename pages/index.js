@@ -6,10 +6,10 @@ import { ArrowForwardIcon } from '@chakra-ui/icons'
 import profilePhoto from '../public/profile.png'
 import Nav from '../components/nav'
 import { useState, useEffect } from 'react'
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useFetchUser } from '../lib/user'
 
 export default function Home() {
-  const { data: session } = useSession()
+  const { user, loadingUser } = useFetchUser()
   let [loading, setLoading] = useState(false)
 
   function startLoading() {
@@ -35,9 +35,11 @@ export default function Home() {
               <Link href="/add-app">
                 <Button size='lg' colorScheme='yellow' rightIcon={<ArrowForwardIcon />} isLoading={loading} onClick={startLoading}>Add your app</Button>
               </Link>
-              {!session ? <Link href="/signup">
+              {!user ? <a href="/api/login">
                 <Button size='lg'>Sign up</Button>
-              </Link> : <Button size='lg' onClick={signOut}>Logout</Button>}
+              </a> : <a href="/api/logout">
+                <Button size='lg'>Logout</Button>
+              </a>}
             </ButtonGroup>
             <HStack>
               <Avatar src="./profile.png" width='25px' height='25px'/>
