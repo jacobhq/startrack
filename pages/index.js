@@ -35,11 +35,11 @@ export default function Home() {
               <Link href="/add-app">
                 <Button size='lg' colorScheme='yellow' rightIcon={<ArrowForwardIcon />} isLoading={loading} onClick={startLoading}>Add your app</Button>
               </Link>
-              {!user ? <a href="/api/login">
+              {!user ? <Link href="/api/login">
                 <Button size='lg'>Sign up</Button>
-              </a> : <a href="/api/logout">
+              </Link> : <Link href="/api/logout">
                 <Button size='lg'>Logout</Button>
-              </a>}
+              </Link>}
             </ButtonGroup>
             <HStack>
               <Avatar src="./profile.png" width='25px' height='25px'/>
