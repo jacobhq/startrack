@@ -1,13 +1,15 @@
 import { ChakraProvider, extendTheme } from "@chakra-ui/react"
 import '../styles/globals.css'
 import { SessionProvider } from "next-auth/react"
+import { StepsStyleConfig as Steps } from 'chakra-ui-steps';
 
-const config = {
+const theme = extendTheme({
   initialColorMode: "light",
   useSystemColorMode: false,
-}
-
-const theme = extendTheme({ config })
+  components: {
+    Steps,
+  },
+});
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
