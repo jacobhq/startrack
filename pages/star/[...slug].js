@@ -22,9 +22,7 @@ import {
 } from "@chakra-ui/react"
 import useSWR from 'swr'
 import { Octokit } from "@octokit/rest";
-import { getSession } from "next-auth/react"
 import axios from 'axios';
-import { getToken } from 'next-auth/jwt';
 import { useState } from 'react';
 
 const octokit = new Octokit();

@@ -1,10 +1,8 @@
-import { getSession } from 'next-auth/react'
 import { Octokit } from "@octokit/rest";
 import axios from 'axios';
 import { useState } from 'react';
 
 export default async (req, res) => {
-  const session = await getSession({ req });
   const { slug } = req.query
   let token
 
