@@ -106,7 +106,7 @@ export default function Home() {
 }
 
 export const getServerSideProps = async (context) => {
-    const result = await fetch('https://3000-lavender-horse-riyet74h.ws-eu18.gitpod.io/api/a/b', {
+    const result = await fetch('http://localhost:3000/api/a/b', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
