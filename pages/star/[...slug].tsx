@@ -26,6 +26,7 @@ import axios from 'axios';
 import { useState } from 'react';
 
 const octokit = new Octokit();
+// @ts-ignore
 const fetcher = (...args) => fetch(...args).then(res => res.json())
 
 function Repo(query) {
@@ -66,12 +67,13 @@ async function star(query) {
 
 const Comment = () => {
   const router = useRouter()
-  const slug = router.query.slug || []
+  const slug = router.query.slug as String[] || []
   const { isOpen, onOpen, onClose } = useDisclosure({ 'defaultIsOpen': true })
+  // @ts-ignore
   const fetcher = (...args) => fetch(...args).then(res => res.json())
   let [token, setToken] = useState()
   axios.get('/api/getToken').then(function (res) {
-    setToken(res)
+    setToken(res.data)
   })
   console.log(token)
 
