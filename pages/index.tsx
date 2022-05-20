@@ -6,7 +6,7 @@ import { ArrowForwardIcon } from '@chakra-ui/icons'
 import profilePhoto from '../public/profile.png'
 import Nav from '../components/nav'
 import { useState, useEffect } from 'react'
-import { useSession } from 'next-auth/react'
+import { signIn, signOut, useSession } from 'next-auth/react'
 
 export default function Home() {
   let [loading, setLoading] = useState(false)
@@ -35,14 +35,14 @@ export default function Home() {
               <Link href="/add-app">
                 <Button size='lg' colorScheme='yellow' rightIcon={<ArrowForwardIcon />} isLoading={loading} onClick={startLoading}>Add your app</Button>
               </Link>
-              {!session ? <Link href="/api/login">
-                <Button size='lg' isLoading={status === "loading"}>Sign up</Button>
-              </Link> : <Link href="/api/logout">
-                <Button size='lg' isLoading={status === "loading"}>Logout</Button>
-              </Link>}
+              {!session ?
+                <Button onClick={() => signIn('github')} size='lg' isLoading={status === "loading"}>Sign up</Button>
+                :
+                <Button onClick={() => signOut()} size='lg' isLoading={status === "loading"}>Logout</Button>
+              }
             </ButtonGroup>
             <HStack>
-              <Avatar src="./profile.png" width='25px' height='25px'/>
+              <Avatar src="./profile.png" width='25px' height='25px' />
               <Text paddingTop="2.5px">App by JacobHQ</Text>
             </HStack>
           </VStack>
