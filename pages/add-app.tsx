@@ -106,14 +106,11 @@ export default function Home() {
 }
 
 export const getServerSideProps = async (context) => {
-    const result = await fetch('http://localhost:3000/api/a/b', {
+    const result = await fetch('http://localhost:3000/api/star/a/b', {
         method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            cookie: context.req.headers.cookie,
-        },
     })
-    console.log(result)
-    return { props: { result: result.toString() } }
+    const res = await result.json()
+    console.log(res)
+    return { props: { result: await res } }
 }
 

@@ -4,6 +4,7 @@ import router, { Router, withRouter } from 'next/router'
 import { Center, Heading, VStack, HStack, Text, Button, ButtonGroup, Divider, Input, Textarea, IconButton, useColorMode } from '@chakra-ui/react'
 import { ArrowBackIcon, SunIcon, MoonIcon } from '@chakra-ui/icons'
 import { useState } from 'react'
+import { signIn } from "next-auth/react"
 
 function Nav({ router }) {
     const { colorMode, toggleColorMode } = useColorMode()
@@ -22,7 +23,7 @@ function Nav({ router }) {
             </Link> : <div></div>}
             {router.pathname === '/' ? <ButtonGroup>
                 <Button variant="ghost">Startrack</Button>
-                <Button variant="ghost">Login</Button>
+                <Button variant="ghost" onClick={() => signIn('github')}>Login</Button>
                 <Button variant="ghost">Signup</Button>
             </ButtonGroup> : <div></div>}
             <IconButton isRound variant="ghost" size="lg" icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />} onClick={toggleColorMode} />
