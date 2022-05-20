@@ -19,14 +19,14 @@ function Nav({ router }) {
     return (
         <HStack position="fixed" padding="25px" justify="space-between" width="100vw">
             {router.pathname != '/' ? <Link href="/">
-                <IconButton isRound variant="ghost" size="lg" icon={<ArrowBackIcon />} isLoading={loading} />
+                <IconButton aria-label='Back' isRound variant="ghost" size="lg" icon={<ArrowBackIcon />} isLoading={loading} />
             </Link> : <div></div>}
             {router.pathname === '/' ? <ButtonGroup>
                 <Button variant="ghost">Startrack</Button>
                 <Button variant="ghost" onClick={() => signIn('github')}>Login</Button>
                 <Button variant="ghost">Signup</Button>
             </ButtonGroup> : <div></div>}
-            <IconButton isRound variant="ghost" size="lg" icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />} onClick={toggleColorMode} />
+            <IconButton aria-label='Toggle theme' isRound variant="ghost" size="lg" icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />} onClick={toggleColorMode} />
         </HStack>
     )
 }
