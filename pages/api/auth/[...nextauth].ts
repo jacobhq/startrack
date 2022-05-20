@@ -18,12 +18,17 @@ export default NextAuth({
     // ...add more providers here
   ],
   callbacks: {
-    // @ts-ignore
-    async jwt(token, user, account, profile, isNewUser) {
+    async jwt({ token, user, account, profile, isNewUser }) {
       if (account?.accessToken) {
         token.accessToken = account.accessToken;
       }
       return token;
+    },
+    async session({ session, user, token }) {
+      if (token.accessToken) {
+        session.token = token.accessToken
+      }
+      return session
     },
   },
 })

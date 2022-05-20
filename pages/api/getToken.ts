@@ -8,6 +8,7 @@ export default async (req, res) => {
   const token = await getToken({ req, secret })
   if (token) {
     // Signed in
+    // @ts-ignore
     res.json(token)
   } else {
     // Not Signed in
