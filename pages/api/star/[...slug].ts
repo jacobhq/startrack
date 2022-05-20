@@ -8,12 +8,12 @@ export default async (req, res) => {
 
   await axios.get('/api/getToken').then(function (response) {
     console.log(slug)
-    res.send(slug, response.token)
-    token = response.token
+    res.send(slug, response.data.token)
+    token = response.data.token
 
     axios.put('https://api.github.com/user/starred/' + slug[0] + '/' + slug[1], {
       headers: {
-        'Authorization': `Bearer ${response.token}`
+        'Authorization': `Bearer ${response.data.token}`
       }
     })
   }).catch(function (error) {
