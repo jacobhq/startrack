@@ -2,30 +2,38 @@ import { Octokit } from "@octokit/rest";
 import axios from 'axios';
 import { useState } from 'react';
 import { getToken } from "next-auth/jwt"
+import prisma from "../../../lib/prisma";
+import { getSession } from "next-auth/react";
 
 const secret = process.env.SECRET
 
 export default async (req, res) => {
   const { slug } = req.query
-  const token = await getToken({ req, secret })
-  let data
+  const session = await getSession({ req })
 
-  await axios.get('http://localhost:3000/api/getToken', {
-    headers: {
-      'Authorization': `Bearer ${token}`
+  const user = await prisma.user.findFirst({
+    where: {
+      email: session.user.email
     }
-  }).then(function (response) {
-    data = response.data
-    res.send(slug, response.data.token)
-    axios.put('https://api.github.com/user/starred/' + slug[0] + '/' + slug[1], {
-      headers: {
-        'Authorization': `Bearer ${response.data.token}`
-      }
-    })
-  }).catch(function (error) {
-    // handle error
-    console.log(error.message)
   })
 
-  res.end(slug.toString(), data);
+  const account = await prisma.account.findFirst({
+    where: {
+      userId: user.id,
+      provider: "github"
+    }
+  })
+
+  if (!account) return res.status(401).text("Need gh account")
+
+  const octokit = new Octokit({
+    auth: account.access_token,
+  })
+
+  await octokit.request('PUT /user/starred/{owner}/{repo}', {
+    owner: slug[0],
+    repo: slug[1]
+  })
+
+  res.status(201).send("Done")
 };
