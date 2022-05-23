@@ -115,7 +115,7 @@ const Comment = () => {
           {status === "unauthenticated" && <ModalContent>
             <ModalHeader>Unauthenticated</ModalHeader>
             <ModalBody>
-              To continue to star <Link href={`https://github.com/` + slug.join('/')} isExternal><Code>{slug.join('/')}</Code></Link>, please signin with GitHub. You'll only need to do this once.
+              To continue to star <Link href={`https://github.com/` + slug.join('/')} isExternal><Code>{slug.join('/')}</Code></Link>, please signin with GitHub. You&apos;ll only need to do this once.
               <br />
               <br />
               <Repo query={slug} />
