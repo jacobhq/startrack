@@ -25,7 +25,7 @@ import useSWR from 'swr'
 import { Octokit } from "@octokit/rest";
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { getCsrfToken } from 'next-auth/react';
+import { getCsrfToken, signIn, useSession } from 'next-auth/react';
 import { CheckIcon } from '@chakra-ui/icons';
 
 const octokit = new Octokit();
@@ -79,6 +79,7 @@ const Comment = () => {
   let [loading, setLoading] = useState(false)
   let [done, setDone] = useState(false)
   const toast = useToast()
+  const { data: session, status } = useSession()
 
   useEffect(() => {
     if (done === true) {
@@ -86,7 +87,6 @@ const Comment = () => {
         status: "success",
         title: "Starred successfully"
       })
-      onClose
     }
   }, [done])
 
@@ -94,7 +94,7 @@ const Comment = () => {
     <>
         <Modal isOpen={isOpen} onClose={onClose} closeOnEsc={false} closeOnOverlayClick={false}>
           <ModalOverlay />
-          <ModalContent>
+          {status === "authenticated" && <ModalContent>
             <ModalHeader>Star {slug.join('/')}</ModalHeader>
             <ModalBody>
               You are about to star <Link href={`https://github.com/` + slug.join('/')} isExternal><Code>{slug.join('/')}</Code></Link>.
@@ -111,7 +111,53 @@ const Comment = () => {
                 </Button>
               </ButtonGroup>
             </ModalFooter>
-          </ModalContent>
+          </ModalContent>}
+          {status === "unauthenticated" && <ModalContent>
+            <ModalHeader>Unauthenticated</ModalHeader>
+            <ModalBody>
+              To continue to star <Link href={`https://github.com/` + slug.join('/')} isExternal><Code>{slug.join('/')}</Code></Link>, please signin with GitHub. You'll only need to do this once.
+              <br />
+              <br />
+              <Repo query={slug} />
+            </ModalBody>
+
+            <ModalFooter>
+              <ButtonGroup>
+                <Button variant="ghost">Back</Button>
+                <Button colorScheme={"yellow"} onClick={() => signIn("github", { callbackUrl: `/star/${slug[0]}/${slug[1]}` })}>
+                  {"Sign in"}
+                </Button>
+              </ButtonGroup>
+            </ModalFooter>
+          </ModalContent>}
+          {status === "loading" && <ModalContent>
+            <Skeleton>
+            <ModalHeader>Star {slug.join('/')}</ModalHeader>
+            </Skeleton>
+            <ModalBody>
+              <Skeleton>
+              You are about to star <Link href={`https://github.com/` + slug.join('/')} isExternal><Code>{slug.join('/')}</Code></Link>.
+              </Skeleton>
+              <br />
+              <br />
+              <Skeleton>
+              <Repo query={slug} />
+              </Skeleton>
+            </ModalBody>
+
+            <ModalFooter>
+              <ButtonGroup>
+                <Skeleton>
+                <Button variant="ghost">Back</Button>
+                </Skeleton>
+                <Skeleton>
+                <Button colorScheme={done ? "green" : "yellow"} isDisabled={done} isLoading={loading} onClick={() => star(slug, setLoading, setDone)}>
+                  {done ? <CheckIcon mx={2} /> : "Star"}
+                </Button>
+                </Skeleton>
+              </ButtonGroup>
+            </ModalFooter>
+          </ModalContent>}
         </Modal>
     </>
   )

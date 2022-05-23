@@ -32,6 +32,13 @@ export default async (req, res) => {
     auth: account.access_token,
   })
 
+  await octokit.request('GET /user/starred/{owner}/{repo}', {
+    owner: slug[0],
+    repo: slug[1]
+  }).then((data) => {
+    if (data.status === 204) return res.status(204).send("Already starred")
+  })
+
   await octokit.request('PUT /user/starred/{owner}/{repo}', {
     owner: slug[0],
     repo: slug[1]
