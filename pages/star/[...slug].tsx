@@ -19,11 +19,14 @@ import {
   AlertIcon,
   AlertTitle,
   AlertDescription,
+  useToast,
 } from "@chakra-ui/react"
 import useSWR from 'swr'
 import { Octokit } from "@octokit/rest";
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getCsrfToken } from 'next-auth/react';
+import { CheckIcon } from '@chakra-ui/icons';
 
 const octokit = new Octokit();
 // @ts-ignore
@@ -57,11 +60,13 @@ function Repo(query) {
   </Box>
 }
 
-async function star(query) {
-  console.log(query)
-  const { data } = await axios.get('/api/' + query[0] + '/' + query[1], {
-    withCredentials: true,
-  });
+async function star(query, setLoading, setDone) {
+  setLoading(true)
+  const data = await axios.post('/api/star/' + query[0] + '/' + query[1]).then(() => {
+    setDone(true)
+  }).finally(() => {
+    setLoading(false)
+  })
   console.log(data)
 }
 
@@ -71,18 +76,22 @@ const Comment = () => {
   const { isOpen, onOpen, onClose } = useDisclosure({ 'defaultIsOpen': true })
   // @ts-ignore
   const fetcher = (...args) => fetch(...args).then(res => res.json())
-  let [token, setToken] = useState()
-  axios.get('/api/getToken').then(function (res) {
-    setToken(res.data)
-  })
-  console.log(token)
+  let [loading, setLoading] = useState(false)
+  let [done, setDone] = useState(false)
+  const toast = useToast()
+
+  useEffect(() => {
+    if (done === true) {
+      toast({
+        status: "success",
+        title: "Starred successfully"
+      })
+      onClose
+    }
+  }, [done])
 
   return (
     <>
-      <h1>Slug: {slug.join('/')}</h1>
-      <>
-        <Button onClick={onOpen}>Open Modal</Button>
-
         <Modal isOpen={isOpen} onClose={onClose} closeOnEsc={false} closeOnOverlayClick={false}>
           <ModalOverlay />
           <ModalContent>
@@ -97,14 +106,13 @@ const Comment = () => {
             <ModalFooter>
               <ButtonGroup>
                 <Button variant="ghost">Back</Button>
-                <Button colorScheme="yellow" onClick={() => star(slug)}>
-                  Star
+                <Button colorScheme={done ? "green" : "yellow"} isDisabled={done} isLoading={loading} onClick={() => star(slug, setLoading, setDone)}>
+                  {done ? <CheckIcon mx={2} /> : "Star"}
                 </Button>
               </ButtonGroup>
             </ModalFooter>
           </ModalContent>
         </Modal>
-      </>
     </>
   )
 }

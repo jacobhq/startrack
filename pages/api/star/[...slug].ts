@@ -10,6 +10,8 @@ const secret = process.env.SECRET
 export default async (req, res) => {
   const { slug } = req.query
   const session = await getSession({ req })
+  if (!session) return res.status(401).send("Need authentication")
+  if (!slug[0] || !slug[1] || req.method !== "POST") return res.status(400).send("Bad request")
 
   const user = await prisma.user.findFirst({
     where: {
