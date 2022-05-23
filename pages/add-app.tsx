@@ -1,16 +1,14 @@
 import Head from 'next/head'
-import Link from 'next/link'
-import { Center, Heading, VStack, HStack, Text, Button, ButtonGroup, Divider, Input, Textarea, IconButton, List, ListItem, ListIcon, Tabs, TabList, TabPanels, Tab, TabPanel, Flex, Radio, RadioGroup, } from '@chakra-ui/react'
+import { Center, Heading, VStack, Text, Button, ButtonGroup, Divider, Input, Textarea, Flex, Radio, RadioGroup, } from '@chakra-ui/react'
 import Nav from '../components/nav'
 import { useState } from 'react'
-import { CheckCircleIcon, CheckIcon, InfoOutlineIcon } from '@chakra-ui/icons'
 import { Step, Steps, useSteps } from "chakra-ui-steps"
 import { Code as CodeIcon, Server as ServerIcon, Hash as HashIcon } from 'react-feather'
 
 function StepContent(i) {
-    let [ghUser, setUser] = useState('')
+    let [ghUser, setUser] = useState('a')
     let [ghRepo, setRepo] = useState('')
-    let [method, setMethod] = useState('link')
+    let [method, setMethod] = useState('html')
 
     let ghProcUser = ghUser !== '' ? ghUser : '[github username]'
     let ghProcRepo = ghRepo !== '' ? ghRepo : '[github repo]'
@@ -22,8 +20,8 @@ function StepContent(i) {
 
     if (i.i === 1) return <RadioGroup onChange={setMethod} value={method} colorScheme='yellow'>
         <VStack>
-            <Radio value='link'>Link</Radio>
-            <Radio value='api'>API</Radio>
+            <Radio value='html'>HTML</Radio>
+            <Radio value='md'>Markdown</Radio>
         </VStack>
     </RadioGroup>
 
@@ -80,8 +78,6 @@ const Chooser = () => {
 
 export default function Home() {
 
-
-
     return (
         <div>
             <Head>
@@ -104,13 +100,3 @@ export default function Home() {
         </div>
     )
 }
-
-export const getServerSideProps = async (context) => {
-    const result = await fetch('http://localhost:3000/api/star/a/b', {
-        method: 'GET',
-    })
-    const res = await result.json()
-    console.log(res)
-    return { props: { result: await res } }
-}
-
