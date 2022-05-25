@@ -75,9 +75,7 @@ async function star(query, setLoading, setDone) {
 const Comment = () => {
   const router = useRouter()
   const slug = router.query.slug as String[] || []
-  const url = router.query.url as String || undefined
   const { isOpen, onOpen, onClose } = useDisclosure({ 'defaultIsOpen': true })
-  const { isOpen: isBack, onOpen: onBack, onClose: onCloseBack } = useDisclosure()
   let [loading, setLoading] = useState(false)
   let [done, setDone] = useState(false)
   const toast = useToast()
@@ -97,24 +95,6 @@ const Comment = () => {
       <Head>
         <title>Star {slug.join('/')}</title>
       </Head>
-      <Modal isOpen={isBack} onClose={onCloseBack}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Are you sure you want to go back?</ModalHeader>
-          <ModalBody>
-            You are about to go back to <Code>{router.query.url}</Code>, which was passed as <Code>url</Code> in the query string.
-          </ModalBody>
-          <ModalFooter>
-            <ButtonGroup>
-              <Button variant="ghost" onClick={onCloseBack}>Cancel</Button>
-              {/* @ts-ignore */}
-              <Button onClick={() => router.push(url)}>
-                Go back
-              </Button>
-            </ButtonGroup>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
       <Modal isOpen={isOpen} onClose={onClose} closeOnEsc={false} closeOnOverlayClick={false}>
         <ModalOverlay />
         {status === "authenticated" && <ModalContent>
@@ -128,9 +108,7 @@ const Comment = () => {
 
           <ModalFooter>
             <ButtonGroup>
-              <Tooltip isDisabled={!url} shouldWrapChildren label="No url parameter was passed in the query string">
-                <Button variant="ghost" onClick={onBack} isDisabled={!url}>Back</Button>
-              </Tooltip>
+              <Button variant="ghost" onClick={() => router.back()}>Back</Button>
               <Button colorScheme={done ? "green" : "yellow"} isDisabled={done} isLoading={loading} onClick={() => star(slug, setLoading, setDone)}>
                 {done ? <CheckIcon mx={2} /> : "Star"}
               </Button>
@@ -148,9 +126,7 @@ const Comment = () => {
 
           <ModalFooter>
             <ButtonGroup>
-              <Tooltip isDisabled={!url} shouldWrapChildren label="No url parameter was passed in the query string">
-                <Button variant="ghost" onClick={onBack} isDisabled={!url}>Back</Button>
-              </Tooltip>
+              <Button variant="ghost" onClick={() => router.back()}>Back</Button>
               <Button colorScheme={"yellow"} onClick={() => signIn("github", { callbackUrl: `/star/${slug[0]}/${slug[1]}` })}>
                 {"Sign in"}
               </Button>
