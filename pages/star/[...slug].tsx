@@ -35,7 +35,13 @@ const octokit = new Octokit();
 const fetcher = (...args) => fetch(...args).then(res => res.json())
 
 function Repo(query) {
-  const { data, error } = useSWR('https://api.github.com/repos/' + query.query[0] + '/' + query.query[1], fetcher)
+  const { data, error } = useSWR(query.query[0] ? 'https://api.github.com/repos/' + query.query[0] + '/' + query.query[1] : null, fetcher)
+
+  if (data && data.message === 'Not Found') return <Alert status="error" rounded="md">
+    <AlertIcon />
+    <AlertTitle mr={2}>Repo not found</AlertTitle>
+    <AlertDescription>Please check your URL...</AlertDescription>
+  </Alert>
 
   if (error) return <Alert status="error" rounded="md">
     <AlertIcon />
@@ -69,7 +75,6 @@ async function star(query, setLoading, setDone) {
   }).finally(() => {
     setLoading(false)
   })
-  console.log(data)
 }
 
 const Comment = () => {
@@ -80,6 +85,7 @@ const Comment = () => {
   let [done, setDone] = useState(false)
   const toast = useToast()
   const { data: session, status } = useSession()
+  const { data, error } = useSWR(slug[0] ? 'https://api.github.com/repos/' + slug[0] + '/' + slug[1] : null, fetcher)
 
   useEffect(() => {
     if (done === true) {
@@ -109,7 +115,7 @@ const Comment = () => {
           <ModalFooter>
             <ButtonGroup>
               <Button variant="ghost" onClick={() => router.back()}>Back</Button>
-              <Button colorScheme={done ? "green" : "yellow"} isDisabled={done} isLoading={loading} onClick={() => star(slug, setLoading, setDone)}>
+              <Button colorScheme={done ? "green" : "yellow"} isDisabled={done || data && data.message === 'Not Found'} isLoading={loading} onClick={() => star(slug, setLoading, setDone)}>
                 {done ? <CheckIcon mx={2} /> : "Star"}
               </Button>
             </ButtonGroup>
@@ -127,7 +133,7 @@ const Comment = () => {
           <ModalFooter>
             <ButtonGroup>
               <Button variant="ghost" onClick={() => router.back()}>Back</Button>
-              <Button colorScheme={"yellow"} onClick={() => signIn("github", { callbackUrl: `/star/${slug[0]}/${slug[1]}` })}>
+              <Button isDisabled={data && data.message === 'Not Found'} colorScheme={"yellow"} onClick={() => signIn("github", { callbackUrl: `/star/${slug[0]}/${slug[1]}` })}>
                 {"Sign in"}
               </Button>
             </ButtonGroup>
