@@ -23,8 +23,8 @@ function Nav({ router }) {
             </Link> : <div></div>}
             {router.pathname === '/' ? <ButtonGroup>
                 <Button variant="ghost">Startrack</Button>
-                <Button variant="ghost" onClick={() => signIn('github')}>Login</Button>
-                <Button variant="ghost">Signup</Button>
+                <Button variant="ghost" onClick={() => signIn('github')}>Sign in</Button>
+                <Button variant="ghost" onClick={() => router.push('/add-app')}>Add your app</Button>
             </ButtonGroup> : <div></div>}
             <IconButton aria-label='Toggle theme' isRound variant="ghost" size="lg" icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />} onClick={toggleColorMode} />
         </HStack>

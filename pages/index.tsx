@@ -32,14 +32,12 @@ export default function Home() {
             <Text>Create visual feedback in your app, based on wether your github repo is starred.</Text>
             <Divider />
             <ButtonGroup>
-              <Link href="/add-app">
-                <Button size='lg' colorScheme='yellow' rightIcon={<ArrowForwardIcon />} isLoading={loading} onClick={startLoading}>Add your app</Button>
+              <Link href="/star/jacobhq/startrack">
+                <Button size='lg' colorScheme='yellow' rightIcon={<ArrowForwardIcon />} isLoading={loading} onClick={startLoading}>Try it</Button>
               </Link>
-              {!session ?
-                <Button onClick={() => signIn('github')} size='lg' isLoading={status === "loading"}>Sign up</Button>
-                :
-                <Button onClick={() => signOut()} size='lg' isLoading={status === "loading"}>Logout</Button>
-              }
+              <Link href="/add-app">
+                <Button size="lg">Add your app</Button>
+              </Link>
             </ButtonGroup>
             <HStack>
               <Avatar src="./profile.png" width='25px' height='25px' />
