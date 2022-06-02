@@ -37,6 +37,8 @@ export default async (req, res) => {
     repo: slug[1]
   }).then((data) => {
     if (data.status === 204) return res.status(204).send("Already starred")
+  }).catch((err) => {
+    console.log(err)
   })
 
   await octokit.request('PUT /user/starred/{owner}/{repo}', {

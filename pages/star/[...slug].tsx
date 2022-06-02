@@ -36,6 +36,7 @@ const fetcher = (...args) => fetch(...args).then(res => res.json())
 
 function Repo(query) {
   const { data, error } = useSWR(query.query[0] ? 'https://api.github.com/repos/' + query.query[0] + '/' + query.query[1] : null, fetcher)
+  const toast = useToast()
 
   if (data && data.message === 'Not Found') return <Alert status="error" rounded="md">
     <AlertIcon />
@@ -72,6 +73,8 @@ async function star(query, setLoading, setDone) {
   setLoading(true)
   const data = await axios.post('/api/star/' + query[0] + '/' + query[1]).then(() => {
     setDone(true)
+  }).catch((err) => {
+    console.log(err)
   }).finally(() => {
     setLoading(false)
   })
