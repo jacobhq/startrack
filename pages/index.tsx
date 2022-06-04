@@ -1,16 +1,12 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import Link from 'next/link'
 import { Center, Heading, VStack, HStack, Text, Button, ButtonGroup, Divider, Avatar } from '@chakra-ui/react'
 import { ArrowForwardIcon } from '@chakra-ui/icons'
-import profilePhoto from '../public/profile.png'
-import Nav from '../components/nav'
-import { useState, useEffect } from 'react'
-import { signIn, signOut, useSession } from 'next-auth/react'
+import Nav from 'components/nav'
+import { useState } from 'react'
 
 export default function Home() {
   let [loading, setLoading] = useState(false)
-  const { data: session, status } = useSession()
 
   function startLoading() {
     setLoading(false)

@@ -1,9 +1,7 @@
 import Head from 'next/head'
-import { Center, Heading, VStack, Text, Button, ButtonGroup, Divider, Input, Textarea, Flex, Radio, RadioGroup, Box, Tab, TabList, TabPanel, TabPanels, Tabs, Container, Code } from '@chakra-ui/react'
+import { Center, Heading, Text, Divider, Input, Box, Tab, TabList, TabPanel, TabPanels, Tabs, Container, Code } from '@chakra-ui/react'
 import Nav from '../components/nav'
-import { useEffect, useState } from 'react'
-import { Step, Steps, useSteps } from "chakra-ui-steps"
-import { Code as CodeIcon, Server as ServerIcon, Hash as HashIcon } from 'react-feather'
+import { useState } from 'react'
 
 export default function Home() {
     let [ghUser, setUser] = useState('')

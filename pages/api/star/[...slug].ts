@@ -2,7 +2,7 @@ import { Octokit } from "@octokit/rest";
 import axios from 'axios';
 import { useState } from 'react';
 import { getToken } from "next-auth/jwt"
-import prisma from "../../../lib/prisma";
+import prisma from "lib/prisma";
 import { getSession } from "next-auth/react";
 
 const secret = process.env.SECRET
