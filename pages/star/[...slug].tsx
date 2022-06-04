@@ -20,15 +20,16 @@ import {
   AlertTitle,
   AlertDescription,
   useToast,
-  Tooltip,
 } from "@chakra-ui/react"
 import useSWR from 'swr'
 import { Octokit } from "@octokit/rest";
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { getCsrfToken, signIn, useSession } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { CheckIcon } from '@chakra-ui/icons';
 import Head from 'next/head';
+import splitbee from '@splitbee/web';
+import { starEvent } from 'lib/constants';
 
 const octokit = new Octokit();
 // @ts-ignore
@@ -71,8 +72,11 @@ function Repo(query) {
 
 async function star(query, setLoading, setDone) {
   setLoading(true)
-  const data = await axios.post('/api/star/' + query[0] + '/' + query[1]).then(() => {
+  await axios.post('/api/star/' + query[0] + '/' + query[1]).then(() => {
     setDone(true)
+    splitbee.track(starEvent, {
+      repo: query[0] + '/' + query[1]
+    })
   }).catch((err) => {
     console.log(err)
   }).finally(() => {
