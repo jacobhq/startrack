@@ -90,9 +90,9 @@ function UserCard(query) {
   </Flex>
 }
 
-async function star(query, setLoading, setDone) {
+async function follow(query, setLoading, setDone) {
   setLoading(true)
-  const data = await axios.post('/api/star/' + query[0] + '/' + query[1]).then(() => {
+  const data = await axios.post('/api/follow/' + query[0]).then(() => {
     setDone(true)
   }).catch((err) => {
     console.log(err)
@@ -139,7 +139,7 @@ const Comment = () => {
           <ModalFooter>
             <ButtonGroup>
               <Button variant="ghost" onClick={() => router.back()}>Back</Button>
-              <Button colorScheme={done ? "green" : "yellow"} isDisabled={done || data && data.message === 'Not Found'} isLoading={loading} onClick={() => star(slug, setLoading, setDone)}>
+              <Button colorScheme={done ? "green" : "yellow"} isDisabled={done || data && data.message === 'Not Found'} isLoading={loading} onClick={() => follow(slug, setLoading, setDone)}>
                 {done ? <CheckIcon mx={2} /> : "Follow"}
               </Button>
             </ButtonGroup>
@@ -186,7 +186,7 @@ const Comment = () => {
                 <Button variant="ghost">Back</Button>
               </Skeleton>
               <Skeleton>
-                <Button colorScheme={done ? "green" : "yellow"} isDisabled={done} isLoading={loading} onClick={() => star(slug, setLoading, setDone)}>
+                <Button colorScheme={done ? "green" : "yellow"} isDisabled={done} isLoading={loading} onClick={() => follow(slug, setLoading, setDone)}>
                   {done ? <CheckIcon mx={2} /> : "Star"}
                 </Button>
               </Skeleton>
