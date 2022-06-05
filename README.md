@@ -1,6 +1,18 @@
-![Startrack](https://raw.githubusercontent.com/jacobhq/startrack/main/public/banner.svg)
 
-Embed github stars into your next app
+<p align="center">
+  <a href="https://vercel.com">
+    <img src="./public/logo.png" height="96">
+    <h3 align="center">Startrack</h3>
+  </a>
+</p>
+
+<p align="center">
+  Embed github stars into your next app.
+</p>
+
+<br />
+
+## Startrack
 
 [![Star with Startrack](https://img.shields.io/badge/startrack-star-yellow)](https://startrack.vercel.app/star/jacobhq/startrack)
 ![Vercel](https://vercelbadge.vercel.app/api/jacobhq/startrack)
