@@ -1,6 +1,6 @@
 
 <p align="center">
-  <a href="https://vercel.com">
+  <a href="https://startrack.vercel.app">
     <img src="./public/logo.png" height="96">
     <h3 align="center">Startrack</h3>
   </a>
