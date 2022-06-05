@@ -30,7 +30,7 @@ function Nav({ animate, delay }: NavProps) {
         <>
             {animate ? <Fade delay={delay}>
                 <HStack position="fixed" padding="25px" justify="space-between" width="100vw">
-                    {router.pathname != '/' ? <Link href="/">
+                    {router.pathname != '/' || '/no-animate' ? <Link href="/">
                         <IconButton aria-label='Back' isRound variant="ghost" size="lg" icon={<ArrowBackIcon />} isLoading={loading} />
                     </Link> : <div></div>}
                     {router.pathname === '/' ? <ButtonGroup>
@@ -42,10 +42,10 @@ function Nav({ animate, delay }: NavProps) {
                 </HStack>
             </Fade> :
                 <HStack position="fixed" padding="25px" justify="space-between" width="100vw">
-                    {router.pathname != '/' ? <Link href="/">
+                    {router.pathname != '/' || '/no-animate' ? <Link href="/">
                         <IconButton aria-label='Back' isRound variant="ghost" size="lg" icon={<ArrowBackIcon />} isLoading={loading} />
                     </Link> : <div></div>}
-                    {router.pathname === '/' ? <ButtonGroup>
+                    {router.pathname === '/' || '/no-animate' ? <ButtonGroup>
                         <Button variant="ghost">Startrack</Button>
                         <Button variant="ghost" onClick={() => signIn('github')}>Sign in</Button>
                         <Button variant="ghost" onClick={() => router.push('/add-app')}>Add your app</Button>
