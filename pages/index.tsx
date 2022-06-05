@@ -1,9 +1,12 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import { Center, Heading, VStack, HStack, Text, Button, ButtonGroup, Divider, Avatar } from '@chakra-ui/react'
+import { Center, Heading, VStack, HStack, Text, Button, ButtonGroup, Divider, Avatar, Spacer, Container } from '@chakra-ui/react'
 import { ArrowForwardIcon } from '@chakra-ui/icons'
 import Nav from 'components/nav'
 import { useState } from 'react'
+import { motion } from 'framer-motion';
+import { FadeAndSlide } from 'components/fade-and-slide'
+import { Fade } from 'components/fade'
 
 export default function Home() {
   let [loading, setLoading] = useState(false)
@@ -31,26 +34,28 @@ export default function Home() {
       </Head>
 
       <main>
-        <Nav />
-        <Center width='100vw' height='100vh'>
-          <VStack spacing='24px' padding='10%'>
-            <Heading size='3xl'>Embed github stars into your next app</Heading>
-            <Text>Create visual feedback in your app, based on wether your github repo is starred.</Text>
-            <Divider />
-            <ButtonGroup>
-              <Link href="/star/jacobhq/startrack">
-                <Button size='lg' colorScheme='yellow' rightIcon={<ArrowForwardIcon />} isLoading={loading} onClick={startLoading}>Try it</Button>
-              </Link>
-              <Link href="/add-app">
-                <Button size="lg">Add your app</Button>
-              </Link>
-            </ButtonGroup>
-            <HStack>
-              <Avatar src="./profile.png" width='25px' height='25px' />
-              <Text paddingTop="2.5px">App by JacobHQ</Text>
-            </HStack>
+        <Nav animate delay={1.2} />
+        <Container maxW="3xl" textAlign="center">
+          <VStack spacing='24px' py={{ base: 36, md: 64 }}>
+            <FadeAndSlide>
+              <Heading size='3xl'>Embed github stars into your next app</Heading>
+            </FadeAndSlide>
+            <FadeAndSlide delay={0.4}>
+              <Text>Create visual feedback in your app, based on wether your github repo is starred.</Text>
+            </FadeAndSlide>
+            <Spacer h={6} />
+            <FadeAndSlide delay={0.8}>
+              <ButtonGroup>
+                <Link href="/star/jacobhq/startrack">
+                  <Button rounded="full" colorScheme='yellow' rightIcon={<ArrowForwardIcon />} isLoading={loading} onClick={startLoading}>Try it</Button>
+                </Link>
+                <Link href="/add-app">
+                  <Button rounded="full" variant="ghost">Add your app</Button>
+                </Link>
+              </ButtonGroup>
+            </FadeAndSlide>
           </VStack>
-        </Center>
+        </Container>
         <Center width='100vw' height='100vh' hidden>
           <HStack padding="10%">
             <VStack spacing="24px">
