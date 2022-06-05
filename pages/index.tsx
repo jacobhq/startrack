@@ -15,9 +15,19 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>Startrack | Embed github stars into your next app</title>
+        <title>Embed github stars into your next app - Startrack</title>
         <meta name='description' content='Create visual feedback in your app, based on wether your github repo is starred.' />
         <link rel='icon' href='/favicon.ico' />
+        <meta name="keywords" content="Startrack, stars, github, github stars" />
+        <meta name="twitter:site" content="@jhqstartrack" />
+        <meta name="twitter:title" content="Embed github stars into your next app - Startrack" />
+        <meta name="twitter:description" content="Create visual feedback in your app, based on wether your github repo is starred." />
+        <meta name="twitter:image" content="https://startrack.vercel.app/social.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="og:title" content="Embed github stars into your next app - Startrack" />
+        <meta property="og:type" content="website" />
+        <meta name="og:description" content="Create visual feedback in your app, based on wether your github repo is starred." />
+        <meta name="og:image" content="https://startrack.vercel.app/social.png" />
       </Head>
 
       <main>
