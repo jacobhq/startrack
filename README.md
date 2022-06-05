@@ -7,12 +7,14 @@
 </p>
 
 <p align="center">
-  Embed github stars into your next app.
+  <a href="https://www.producthunt.com/posts/startrack?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-startrack" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=348459&theme=light" alt="Startrack - Embed&#0032;github&#0032;stars&#0032;into&#0032;your&#0032;next&#0032;app&#0046; | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 </p>
 
 <br />
 
 ## Startrack
+**Startrack is launching on ProductHunt!** Please show your support with an upvote.
+
 
 [![Star with Startrack](https://img.shields.io/badge/startrack-star-yellow)](https://startrack.vercel.app/star/jacobhq/startrack)
 ![Vercel](https://vercelbadge.vercel.app/api/jacobhq/startrack)
