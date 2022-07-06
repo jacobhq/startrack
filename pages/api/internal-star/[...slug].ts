@@ -8,10 +8,10 @@ import { getSession } from "next-auth/react";
 const secret = process.env.SECRET
 
 export default async (req, res) => {
-  const { slug } = req.query
+  const { slug, returnTo } = req.query
   const session = await getSession({ req })
   if (!session) return res.status(401).send("Need authentication")
-  if (!slug[0] || !slug[1] || req.method !== "POST") return res.status(400).send("Bad request")
+  if (!slug[0] || !slug[1]) return res.status(400).send("Bad request")
 
   const user = await prisma.user.findFirst({
     where: {
@@ -45,6 +45,10 @@ export default async (req, res) => {
     owner: slug[0],
     repo: slug[1]
   })
+
+  if (returnTo) {
+    return res.redirect(returnTo)
+  }
 
   res.status(201).send("Done")
 };
