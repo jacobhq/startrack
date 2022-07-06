@@ -8,7 +8,7 @@ import { getSession } from "next-auth/react";
 const secret = process.env.SECRET
 
 export default async (req, res) => {
-  const { slug, returnTo } = req.query
+  const { slug } = req.query
   const session = await getSession({ req })
   if (!session) return res.status(401).send("Need authentication")
   if (!slug[0] || !slug[1]) return res.status(400).send("Bad request")
@@ -46,8 +46,8 @@ export default async (req, res) => {
     repo: slug[1]
   })
 
-  if (returnTo) {
-    return res.redirect(returnTo)
+  if (req.query.returnTo) {
+    return res.redirect(req.query.returnTo)
   }
 
   res.status(201).send("Done")

@@ -22,8 +22,9 @@ export default function AuthCheck() {
       if (redirect) {
         if (status === "authenticated") {
           router.push(`/api/internal-star/${slug.join('/')}?returnTo=${url}`)
+        } else {
+          signIn("github", { callbackUrl: `/auth-check/${slug.join('/')}?returnTo=${url}` })
         }
-        signIn("github", { callbackUrl: `/api/internal-star/${slug.join('/')}?returnTo=${url}` })
       }
     }, 5000)
   })
