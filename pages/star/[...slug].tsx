@@ -72,7 +72,7 @@ function Repo(query) {
 
 async function star(query, setLoading, setDone) {
   setLoading(true)
-  await axios.post('/api/star/' + query[0] + '/' + query[1]).then(() => {
+  await axios.post('/api/internal-star/' + query[0] + '/' + query[1]).then(() => {
     setDone(true)
     splitbee.track("clientside-star-success", {
       repo: query[0] + '/' + query[1]
