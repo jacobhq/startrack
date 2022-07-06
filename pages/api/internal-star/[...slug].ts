@@ -10,6 +10,7 @@ const secret = process.env.SECRET
 export default async (req, res) => {
   const { slug } = req.query
   const session = await getSession({ req })
+  console.log(session)
   if (!session) return res.status(401).send("Need authentication")
   if (!slug[0] || !slug[1]) return res.status(400).send("Bad request")
 
@@ -36,7 +37,13 @@ export default async (req, res) => {
     owner: slug[0],
     repo: slug[1]
   }).then((data) => {
-    if (data.status === 204) return res.status(204).send("Already starred")
+    if (data.status === 204) {
+      if (req.query.returnTo) {
+        return res.redirect(req.query.returnTo)
+      }
+
+      return res.status(204).send("Already starred")
+    }
   }).catch((err) => {
     console.log(err)
   })
