@@ -22,7 +22,7 @@ export default function Home() {
                         <Heading size='xl'>Ready to go?</Heading>
                         <Text>Here&apos;s how to get started.</Text>
                         <Divider />
-                        <Box>
+                        <Box w="full">
                             <Heading size="md" mb={4}>Enter details</Heading>
                             <Input value={ghUser} onChange={e => setUser(e.target.value)} placeholder='Github username' mb={3} />
                             <Input value={ghRepo} onChange={e => setRepo(e.target.value)} placeholder='Github repo' />
