@@ -78,7 +78,6 @@ function UserCard(query) {
     <Avatar
       size={'xl'}
       src={data.avatar_url}
-      alt={'Author'}
       mt={-12}
       css={{
         boxShadow: '0 0 0 5px white',
