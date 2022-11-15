@@ -19,6 +19,7 @@
     "@octokit/rest": "^18.12.0",
     "@prisma/client": "^3.14.0",
     "@splitbee/web": "^0.3.0",
+    "@vercel/analytics": "^0.1.5",
     "axios": "^0.24.0",
     "chakra-ui-steps": "^1.5.0",
     "framer-motion": "^6.3.10",

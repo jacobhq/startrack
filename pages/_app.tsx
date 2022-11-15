@@ -4,6 +4,7 @@ import { StepsStyleConfig as Steps } from 'chakra-ui-steps';
 import { SessionProvider } from "next-auth/react"
 import { useEffect } from "react";
 import splitbee from '@splitbee/web';
+import { Analytics } from '@vercel/analytics/react';
 
 const theme = extendTheme({
   initialColorMode: "light",
@@ -24,6 +25,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     <SessionProvider session={session}>
       <ChakraProvider theme={theme}>
         <Component {...pageProps} />
+        <Analytics />
       </ChakraProvider>
     </SessionProvider>
   )

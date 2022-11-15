@@ -12,6 +12,7 @@ specifiers:
   '@prisma/client': ^3.14.0
   '@splitbee/web': ^0.3.0
   '@types/react': ^18.0.25
+  '@vercel/analytics': ^0.1.5
   axios: ^0.24.0
   chakra-ui-steps: ^1.5.0
   eslint: 7.32.0
@@ -37,6 +38,7 @@ dependencies:
   '@octokit/rest': 18.12.0
   '@prisma/client': 3.15.2_prisma@3.15.2
   '@splitbee/web': 0.3.0
+  '@vercel/analytics': 0.1.5_react@18.2.0
   axios: 0.24.0
   chakra-ui-steps: 1.8.0_qlq7njzj23aplj7nzd74g4tf5a
   framer-motion: 6.5.1_biqbaboplfbrettd7655fr4n2y
@@ -1877,6 +1879,14 @@ packages:
       '@typescript-eslint/types': 4.33.0
       eslint-visitor-keys: 2.1.0
     dev: true
+
+  /@vercel/analytics/0.1.5_react@18.2.0:
+    resolution: {integrity: sha512-/k9N8Ea3Yc5A52GlkjzUEbi2vE/izClrOf++ryBkxEfrZM/OZwtHkdNw/QExZ1h/B67RCZLK7bCOnKKrhG7gTg==}
+    peerDependencies:
+      react: ^16.8||^17||^18
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /@zag-js/element-size/0.1.0:
     resolution: {integrity: sha512-QF8wp0+V8++z+FHXiIw93+zudtubYszOtYbNgK39fg3pi+nCZtuSm4L1jC5QZMatNZ83MfOzyNCfgUubapagJQ==}
