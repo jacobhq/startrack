@@ -48,4 +48,4 @@ We have used the [`GNU Lesser General Public License v2.1`](https://choosealicen
 ---
 
 #### Support me
-If you love Startrack and are able to financially support me, please [buy me a coffee](https://buymeacoffee.com/jem). Otherwise, a Twitter follow ([@jqcat](https://twitter.com/intent/follow?screen_name=jhqcat)) or a YouTube subscribe ([Jacob Marshall](https://www.youtube.com/channel/UChXCa0OuD-HYr3QAESK434g)) would be nice. You can also [star this repo](https://startrack.vercel.app/star/jacobhq/startrack) or follow me on github ([@jacobhq](https://github.com/jacobhq)). Have a great day.
+If you love Startrack and are able to financially support me, please [buy me a coffee](https://buymeacoffee.com/jem). Otherwise, a Twitter follow ([@jhqcat](https://twitter.com/intent/follow?screen_name=jhqcat)) or a YouTube subscribe ([Jacob Marshall](https://www.youtube.com/channel/UChXCa0OuD-HYr3QAESK434g)) would be nice. You can also [star this repo](https://startrack.vercel.app/star/jacobhq/startrack) or follow me on github ([@jacobhq](https://github.com/jacobhq)). Have a great day.
