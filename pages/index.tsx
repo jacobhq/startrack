@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion';
 import { FadeAndSlide } from 'components/fade-and-slide'
 import { Fade } from 'components/fade'
+import Hero from 'components/Hero'
 
 export default function Home() {
   let [loading, setLoading] = useState(false)
@@ -34,36 +35,7 @@ export default function Home() {
       </Head>
 
       <main>
-        <Nav animate delay={1.2} />
-        <Container maxW="3xl" textAlign="center">
-          <VStack spacing='24px' py={{ base: 36, md: 64 }}>
-            <FadeAndSlide>
-              <Heading size='3xl'>Embed github stars into your next app</Heading>
-            </FadeAndSlide>
-            <FadeAndSlide delay={0.4}>
-              <Text>Create visual feedback in your app, based on wether your github repo is starred.</Text>
-            </FadeAndSlide>
-            <Spacer h={6} />
-            <FadeAndSlide delay={0.8}>
-              <ButtonGroup>
-                <Link href="/star/jacobhq/startrack">
-                  <Button rounded="full" colorScheme='yellow' rightIcon={<ArrowForwardIcon />} isLoading={loading} onClick={startLoading}>Try it</Button>
-                </Link>
-                <Link href="/add-app">
-                  <Button rounded="full" variant="ghost">Add your app</Button>
-                </Link>
-              </ButtonGroup>
-            </FadeAndSlide>
-          </VStack>
-        </Container>
-        <Center width='100vw' height='100vh' hidden>
-          <HStack padding="10%">
-            <VStack spacing="24px">
-              <Heading>Star a repo right from your app</Heading>
-              <Text>Deliver a frictionless starring experience, right from your app. Gone are the days of clicking more than once to star a repo ;).</Text>
-            </VStack>
-          </HStack>
-        </Center>
+        <Hero />
       </main>
     </div>
   )
