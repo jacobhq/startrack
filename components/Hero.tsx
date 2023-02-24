@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import Button from './Button'
+import MarketingButton from './MarketingButton'
 import Link from "next/link"
 import Image from "next/image"
 import Logo from "public/logo.png"
@@ -67,7 +67,7 @@ export default function Hero() {
             ))}
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <Button variant='subtle'>Add your app</Button>
+            <MarketingButton variant='subtle'>Add your app</MarketingButton>
           </div>
         </nav>
         <Dialog as="div" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
@@ -99,7 +99,7 @@ export default function Hero() {
                   ))}
                 </div>
                 <div className="py-6">
-                  <Button variant='subtle'>Add your app</Button>
+                  <MarketingButton variant='subtle'>Add your app</MarketingButton>
                 </div>
               </div>
             </div>
@@ -126,8 +126,8 @@ export default function Hero() {
                 Easily build a dynamic starring experience into your app, and provide feedback to the user depending on wether your GitHub repo is starred.
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-2">
-                <Button as={Link} href="/star/jacobhq/startrack">Try it</Button>
-                <Button as={Link} href="/add-app" variant='ghost'>Add your app</Button>
+                <MarketingButton as={Link} href="/star/jacobhq/startrack">Try it</MarketingButton>
+                <MarketingButton as={Link} href="/add-app" variant='ghost'>Add your app</MarketingButton>
               </div>
             </div>
           </div>

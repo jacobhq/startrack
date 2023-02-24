@@ -5,6 +5,7 @@ import { SessionProvider } from "next-auth/react"
 import { useEffect } from "react";
 import splitbee from '@splitbee/web';
 import { Analytics } from '@vercel/analytics/react';
+import { Toaster } from "react-hot-toast";
 
 const theme = extendTheme({
   initialColorMode: "light",
@@ -23,6 +24,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   }, [])
   return (
     <SessionProvider session={session}>
+      <Toaster />
       <ChakraProvider theme={theme}>
         <Component {...pageProps} />
         <Analytics />
