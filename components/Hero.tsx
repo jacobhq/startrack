@@ -3,12 +3,13 @@ import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import Button from './Button'
 import Link from "next/link"
+import Image from "next/image"
+import Logo from "public/logo.png"
 
 const navigation = [
   { name: 'Product', href: '#' },
-  { name: 'Features', href: '#' },
-  { name: 'Marketplace', href: '#' },
-  { name: 'Company', href: '#' },
+  { name: 'Support', href: '#' },
+  { name: 'Source code', href: '#' },
 ]
 
 export default function Hero() {
@@ -16,7 +17,7 @@ export default function Hero() {
 
   return (
     <div className="isolate bg-white">
-      <div className="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]">
+      <div className="absolute hidden inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]">
         <svg
           className="relative left-[calc(50%-11rem)] -z-10 h-[21.1875rem] max-w-none -translate-x-1/2 rotate-[30deg] sm:left-[calc(50%-30rem)] sm:h-[42.375rem]"
           viewBox="0 0 1155 678"
@@ -45,8 +46,7 @@ export default function Hero() {
         <nav className="flex items-center justify-between" aria-label="Global">
           <div className="flex lg:flex-1">
             <a href="#" className="-m-1.5 p-1.5">
-              <span className="sr-only">Your Company</span>
-              <img className="h-8" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" />
+              <Image src={Logo} alt="Startrack logo" className='h-8 w-8' />
             </a>
           </div>
           <div className="flex lg:hidden">
@@ -67,17 +67,14 @@ export default function Hero() {
             ))}
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-              Log in <span aria-hidden="true">&rarr;</span>
-            </a>
+            <Button variant='subtle'>Add your app</Button>
           </div>
         </nav>
         <Dialog as="div" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
-          <Dialog.Panel focus="true" className="fixed inset-0 z-10 overflow-y-auto bg-white px-6 py-6 lg:hidden">
+          <Dialog.Panel className="fixed inset-0 z-10 overflow-y-auto bg-white px-6 py-6 lg:hidden">
             <div className="flex items-center justify-between">
               <a href="#" className="-m-1.5 p-1.5">
-                <span className="sr-only">Your Company</span>
-                <img className="h-8" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" />
+                <Image src={Logo} alt="Startrack logo" className='h-8 w-8' />
               </a>
               <button
                 type="button"
@@ -102,12 +99,7 @@ export default function Hero() {
                   ))}
                 </div>
                 <div className="py-6">
-                  <a
-                    href="#"
-                    className="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-6 text-gray-900 hover:bg-gray-400/10"
-                  >
-                    Log in
-                  </a>
+                  <Button variant='subtle'>Add your app</Button>
                 </div>
               </div>
             </div>
@@ -119,8 +111,8 @@ export default function Hero() {
           <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
             <div className="hidden sm:mb-8 sm:flex sm:justify-center">
               <div className="relative rounded-full py-1 px-3 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
-                Announcing our next round of funding.{' '}
-                <a href="#" className="font-semibold text-indigo-600">
+                Introducing the redesigned Startrack.{' '}
+                <a href="#" className="font-semibold text-yellow-600">
                   <span className="absolute inset-0" aria-hidden="true" />
                   Read more <span aria-hidden="true">&rarr;</span>
                 </a>
@@ -131,7 +123,7 @@ export default function Hero() {
                 Embed GitHub stars into your next app
               </h1>
               <p className="mt-6 text-lg leading-8 text-gray-600">
-              Easily create a dynamic starring experience within your app, based on wether or not your repo is starred.
+                Easily build a dynamic starring experience into your app, and provide feedback to the user depending on wether your GitHub repo is starred.
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-2">
                 <Button as={Link} href="/star/jacobhq/startrack">Try it</Button>
@@ -139,7 +131,7 @@ export default function Hero() {
               </div>
             </div>
           </div>
-          <div className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]">
+          <div className="absolute hidden inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]">
             <svg
               className="relative left-[calc(50%+3rem)] h-[21.1875rem] max-w-none -translate-x-1/2 sm:left-[calc(50%+36rem)] sm:h-[42.375rem]"
               viewBox="0 0 1155 678"
