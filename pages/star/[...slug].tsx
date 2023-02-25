@@ -7,7 +7,6 @@ import {
   useToast,
 } from "@chakra-ui/react"
 import useSWR from 'swr'
-import { Octokit } from "@octokit/rest";
 import axios from 'axios';
 import { Fragment, useEffect, useState } from 'react';
 import { signIn, useSession } from 'next-auth/react';
@@ -18,52 +17,17 @@ import { starEvent } from 'lib/constants';
 import { Dialog, Transition } from '@headlessui/react';
 import Button from 'components/Button';
 import toast from "react-hot-toast"
+import { GetServerSideProps } from 'next';
 
-const octokit = new Octokit();
 // @ts-ignore
 const fetcher = (...args) => fetch(...args).then(res => res.json())
 
-function Repo(query) {
-  const { data, error } = useSWR(query.query[0] ? 'https://api.github.com/repos/' + query.query[0] + '/' + query.query[1] : null, fetcher)
-  console.log(data)
-
-  if (data && data.message === 'Not Found') return <Alert status="error" rounded="md">
-    <AlertIcon />
-    <AlertTitle mr={2}>Repo not found</AlertTitle>
-    <AlertDescription>Please check your URL...</AlertDescription>
-  </Alert>
-
-  if (error) return <Alert status="error" rounded="md">
-    <AlertIcon />
-    <AlertTitle mr={2}>Failed to load repo card</AlertTitle>
-    <AlertDescription>Try again later...</AlertDescription>
-  </Alert>
-  if (!data) return <div role="status" className='p-5 border rounded-md animate-pulse'>
-    <div className="h-5 bg-gray-200 rounded-sm dark:bg-gray-700 w-3/4 mb-4"></div>
-    <div className="h-3 bg-gray-200 rounded-sm dark:bg-gray-700 w-full mb-8"></div>
-  </div>
-
-  // render data
-  return <div className='p-5 border rounded-md'>
-    <h1 className='text-lg font-bold w-3/4 truncate mb-3'>{data.name}</h1>
-    <p className='mb-2'>{data.description ? data.description : 'No description provided'}</p>
-    <div className="flex overflow-hidden">
-      <div className="block">
-        <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:gray-yellow-300">{data.stargazers_count} stars</span>
-      </div>
-      <div className="block">
-        <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300">{data.language}</span>
-      </div>
-    </div>
-  </div>
-}
-
-async function star(query, setLoading, setDone) {
+async function star(repo, setLoading, setDone) {
   setLoading(true)
-  await axios.post('/api/internal-star/' + query[0] + '/' + query[1]).then(() => {
+  await axios.post('/api/internal-star/' + repo).then(() => {
     setDone(true)
     splitbee.track("clientside-star-success", {
-      repo: query[0] + '/' + query[1]
+      repo: repo
     })
   }).catch((err) => {
     setTimeout(() => { }, 1000)
@@ -73,20 +37,19 @@ async function star(query, setLoading, setDone) {
   })
 }
 
-const Comment = () => {
-  const router = useRouter()
-  const slug = router.query.slug as String[] || []
+export default function StarPage({ serverData }) {
   let [loading, setLoading] = useState(false)
   let [done, setDone] = useState(false)
   const { data: session, status } = useSession()
-  const { data, error } = useSWR(slug[0] ? 'https://api.github.com/repos/' + slug[0] + '/' + slug[1] : null, fetcher)
   let [isOpen, setIsOpen] = useState(true)
+  const { data, error } = useSWR('https://api.github.com/repos/' + serverData.full_name, fetcher, { fallbackData: serverData })
+  const title = `Star ${data.full_name}`
 
   function submit() {
     setLoading(true)
-    if (status !== "authenticated") return signIn("github", { callbackUrl: `/star/${slug[0]}/${slug[1]}` })
+    if (status !== "authenticated") return signIn("github", { callbackUrl: `/star/${data.full_name}` })
     toast.promise(
-      star(slug, setLoading, setDone),
+      star(data.full_name, setLoading, setDone),
       {
         loading: 'Starring...',
         success: <b>Starred successfully!</b>,
@@ -95,16 +58,10 @@ const Comment = () => {
     );
   }
 
-  useEffect(() => {
-    if (done === true) {
-      toast("Starred successfully")
-    }
-  }, [done])
-
   return (
     <>
       <Head>
-        <title>Star {slug.join('/')}</title>
+        <title>{title}</title>
       </Head>
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={() => console.log("")}>
@@ -136,20 +93,35 @@ const Comment = () => {
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"
                   >
-                    Continue to star {slug[1]}
+                    Continue to star {data.name}
                   </Dialog.Title>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500 mb-6">
-                      You are about to star the repo {slug.join('/')}.
+                      You are about to star the repo {serverData.full_name}.
                     </p>
-                    <Repo query={slug} />
+                    <div className='p-5 border rounded-md'>
+                      <h1 className='text-lg font-bold w-3/4 truncate mb-2'>{data.name}</h1>
+                      <p className='mb-4'>{data.description ? data.description : 'No description provided'}</p>
+                      <div className="flex overflow-hidden">
+                        <div className="block">
+                          <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:gray-yellow-300">{data.stargazers_count} stars</span>
+                        </div>
+                        <div className="block">
+                          <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300">{data.language}</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="mt-6 flex justify-end">
+                  <div className="mt-6 flex justify-end gap-2">
+                    <Button
+                      variant='ghost'
+                    >
+                      Back
+                    </Button>
                     <Button
                       onClick={submit}
                       loading={loading || status === "loading"}
-                      disabled={data && data.message === 'Not Found'}
                     >
                       {status === "authenticated" ? "Star and return to site" : "Continue with github"}
                     </Button>
@@ -164,4 +136,16 @@ const Comment = () => {
   )
 }
 
-export default Comment
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const slug = context.query.slug
+  if (!slug[0] || !slug[1]) return { notFound: true }
+
+  // Fetch data from external API
+  const res = await fetch('https://api.github.com/repos/' + slug[0] + '/' + slug[1])
+  if (res.status === 404) return { notFound: true }
+  const data = await res.json()
+
+  // Pass data to the page via props
+  return { props: { serverData: data } }
+}
+

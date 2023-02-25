@@ -9,7 +9,7 @@ const buttonStyles = cva(
             variant: {
                 primary: 'px-4 py-2 bg-yellow-900 dark:bg-yellow-100 text-yellow-100 dark:text-yellow-900 hover:enabled:bg-yellow-800 dark:hover:enabled:bg-yellow-200 focus-visible:ring-yellow-300 dark:focus-visible:ring-yellow-700',
                 secondary: 'px-4 py-2 bg-yellow-100 dark:bg-yellow-900 text-yellow-900 dark:text-yellow-100 hover:enabled:bg-yellow-200 dark:hover:enabled:bg-yellow-800 focus-visible:ring-yellow-700 dark:focus-visible:ring-yellow-300',
-                ghost: 'px-4 py-2 bg-white dark:bg-yellow-900 hover:bg-yellow-100 hover:dark:bg-yellow-800 text-black dark:text-white',
+                ghost: 'px-4 py-2 bg-white dark:bg-gray-900 hover:bg-gray-100 hover:dark:bg-gray-800 text-black dark:text-white',
                 link: 'py-1 text-black dark:text-white'
             },
             loading: {
