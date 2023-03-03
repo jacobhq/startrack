@@ -25,10 +25,8 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
     <SessionProvider session={session}>
       <Toaster />
-      <ChakraProvider theme={theme}>
-        <Component {...pageProps} />
-        <Analytics />
-      </ChakraProvider>
+      <Component {...pageProps} />
+      <Analytics />
     </SessionProvider>
   )
 }
