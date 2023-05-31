@@ -8,17 +8,19 @@ import { Dialog, Transition } from '@headlessui/react';
 import Button from 'components/Button';
 import toast from "react-hot-toast"
 import { GetServerSideProps } from 'next';
+import { kv } from '@vercel/kv'
 
 // @ts-ignore
 const fetcher = (...args) => fetch(...args).then(res => res.json())
 
 async function star(repo, setLoading, setDone) {
   setLoading(true)
-  await axios.post('/api/internal-star/' + repo).then(() => {
+  await axios.post('/api/internal-star/' + repo).then(async () => {
     setDone(true)
     splitbee.track("clientside-star-success", {
       repo: repo
     })
+    await kv.incr("stars")
   }).catch((err) => {
     setTimeout(() => { }, 1000)
     throw err
