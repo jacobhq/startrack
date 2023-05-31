@@ -1,19 +1,9 @@
-import { useRouter } from 'next/router'
-import {
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
-  useToast,
-} from "@chakra-ui/react"
 import useSWR from 'swr'
 import axios from 'axios';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useState } from 'react';
 import { signIn, useSession } from 'next-auth/react';
-import { CheckIcon } from '@chakra-ui/icons';
 import Head from 'next/head';
 import splitbee from '@splitbee/web';
-import { starEvent } from 'lib/constants';
 import { Dialog, Transition } from '@headlessui/react';
 import Button from 'components/Button';
 import toast from "react-hot-toast"
