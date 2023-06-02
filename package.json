@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@auth0/nextjs-auth0": "^1.6.1",
     "@chakra-ui/icons": "^2.0.12",
     "@chakra-ui/react": "^2.4.1",
     "@emotion/react": "^11",
@@ -24,7 +23,6 @@
     "@vercel/analytics": "^0.1.5",
     "@vercel/kv": "^0.2.1",
     "axios": "^0.24.0",
-    "chakra-ui-steps": "^1.5.0",
     "class-variance-authority": "^0.6.0",
     "csstype": "^3.1.1",
     "framer-motion": "^6.3.10",
@@ -33,7 +31,6 @@
     "nodemailer": "^6.9.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-feather": "^2.0.9",
     "react-hot-toast": "^2.4.0",
     "swr": "^1.0.1"
   },
