@@ -5,6 +5,8 @@ import MarketingButton from './MarketingButton'
 import Link from "next/link"
 import Image from "next/image"
 import Logo from "public/logo.png"
+import { kv } from '@vercel/kv'
+import { GetServerSideProps } from 'next'
 
 const navigation = [
   { name: 'Product', href: '#' },
@@ -12,7 +14,7 @@ const navigation = [
   { name: 'Source code', href: '#' },
 ]
 
-export default function Hero() {
+export default function Hero({ stars }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
@@ -159,13 +161,14 @@ export default function Hero() {
         </div>
       </main>
 
-      <div className="w-full flex items-center">
-      <div className="flex items-center">
-        <svg aria-hidden="true" className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Rating star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-        <p className="ml-2 text-sm font-bold text-gray-900 dark:text-white">456</p>
-        <span className="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
-        <a href="#" className="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">73 reviews</a>
-      </div>
+      <div className="w-full flex justify-center">
+        <div className="flex flex-col items-center pt-6">
+          <svg aria-hidden="true" className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Rating star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+          <div className="flex mt-2 mb-8">
+            <p className="mr-1 text-sm font-bold text-gray-900 dark:text-white">{Intl.NumberFormat('en-us').format(stars)}</p>
+            <p className="text-sm font-medium text-gray-800 dark:text-white">{" "}repos starred with Startrack</p>
+          </div>
+        </div>
       </div>
 
     </div>

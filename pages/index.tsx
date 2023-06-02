@@ -1,20 +1,9 @@
 import Head from 'next/head'
-import Link from 'next/link'
-import { Center, Heading, VStack, HStack, Text, Button, ButtonGroup, Divider, Avatar, Spacer, Container } from '@chakra-ui/react'
-import { ArrowForwardIcon } from '@chakra-ui/icons'
-import Nav from 'components/nav'
-import { useState } from 'react'
-import { motion } from 'framer-motion';
-import { FadeAndSlide } from 'components/fade-and-slide'
-import { Fade } from 'components/fade'
 import Hero from 'components/Hero'
+import { kv } from '@vercel/kv'
+import { GetServerSideProps } from 'next'
 
-export default function Home() {
-  let [loading, setLoading] = useState(false)
-
-  function startLoading() {
-    setLoading(false)
-  }
+export default function Home({ stars }) {
 
   return (
     <div>
@@ -35,8 +24,13 @@ export default function Home() {
       </Head>
 
       <main>
-        <Hero />
+        <Hero stars={stars} />
       </main>
     </div>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const stars = await kv.get("stars")
+  return { props: { stars } };
+};
