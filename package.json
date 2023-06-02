@@ -35,6 +35,7 @@
     "swr": "^1.0.1"
   },
   "devDependencies": {
+    "@types/node": "^20.2.5",
     "@types/react": "^18.0.25",
     "autoprefixer": "^10.4.13",
     "eslint": "7.32.0",
