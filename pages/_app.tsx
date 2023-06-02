@@ -1,18 +1,9 @@
-import { ChakraProvider, extendTheme } from "@chakra-ui/react"
 import '../styles/globals.css'
-import { StepsStyleConfig as Steps } from 'chakra-ui-steps';
 import { SessionProvider } from "next-auth/react"
 import { useEffect } from "react";
 import splitbee from '@splitbee/web';
 import { Analytics } from '@vercel/analytics/react';
-
-const theme = extendTheme({
-  initialColorMode: "light",
-  useSystemColorMode: false,
-  components: {
-    Steps,
-  },
-});
+import { Toaster } from "react-hot-toast";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   useEffect(() => {
@@ -23,10 +14,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   }, [])
   return (
     <SessionProvider session={session}>
-      <ChakraProvider theme={theme}>
-        <Component {...pageProps} />
-        <Analytics />
-      </ChakraProvider>
+      <Toaster />
+      <Component {...pageProps} />
+      <Analytics />
     </SessionProvider>
   )
 }

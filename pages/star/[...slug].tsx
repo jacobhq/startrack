@@ -1,184 +1,143 @@
-import { useRouter } from 'next/router'
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  Link,
-  Button,
-  useDisclosure,
-  Code,
-  ButtonGroup,
-  Box,
-  Heading,
-  Text,
-  Skeleton,
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
-  useToast,
-} from "@chakra-ui/react"
 import useSWR from 'swr'
-import { Octokit } from "@octokit/rest";
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { Fragment, useState } from 'react';
 import { signIn, useSession } from 'next-auth/react';
-import { CheckIcon } from '@chakra-ui/icons';
 import Head from 'next/head';
 import splitbee from '@splitbee/web';
-import { starEvent } from 'lib/constants';
+import { Dialog, Transition } from '@headlessui/react';
+import Button from 'components/Button';
+import toast from "react-hot-toast"
+import { GetServerSideProps } from 'next';
+import { kv } from '@vercel/kv'
 
-const octokit = new Octokit();
 // @ts-ignore
 const fetcher = (...args) => fetch(...args).then(res => res.json())
 
-function Repo(query) {
-  const { data, error } = useSWR(query.query[0] ? 'https://api.github.com/repos/' + query.query[0] + '/' + query.query[1] : null, fetcher)
-  const toast = useToast()
-
-  if (data && data.message === 'Not Found') return <Alert status="error" rounded="md">
-    <AlertIcon />
-    <AlertTitle mr={2}>Repo not found</AlertTitle>
-    <AlertDescription>Please check your URL...</AlertDescription>
-  </Alert>
-
-  if (error) return <Alert status="error" rounded="md">
-    <AlertIcon />
-    <AlertTitle mr={2}>Failed to load repo card</AlertTitle>
-    <AlertDescription>Try again later...</AlertDescription>
-  </Alert>
-  if (!data) return <Box p="5" borderWidth="1px" rounded="md">
-    <Skeleton>
-      <Heading size="md" mb="10px">repoName</Heading>
-    </Skeleton>
-    <Skeleton>
-      <Text mb="20px">Lorem ipsum dolor sit amet, consectetur adipiscing elit</Text>
-    </Skeleton>
-    <Skeleton>
-      <Text as="i">Lorem ipsum dolor sit amet, consectetur adipiscing elit</Text>
-    </Skeleton>
-  </Box>
-
-  // render data
-  return <Box p="5" borderWidth="1px" rounded="md">
-    <Heading size="md" mb="10px">{data.name}</Heading>
-    <Text mb="20px">{data.description ? data.description : 'No description provided'}</Text>
-    <Text as="i">This repo was created by {data.owner.login}</Text>
-  </Box>
-}
-
-async function star(query, setLoading, setDone) {
+async function star(repo, setLoading, setDone) {
   setLoading(true)
-  await axios.post('/api/internal-star/' + query[0] + '/' + query[1]).then(() => {
+  await axios.post('/api/internal-star/' + repo).then(async () => {
     setDone(true)
     splitbee.track("clientside-star-success", {
-      repo: query[0] + '/' + query[1]
+      repo: repo
     })
+    await kv.incr("stars")
   }).catch((err) => {
-    console.log(err)
+    setTimeout(() => { }, 1000)
+    throw err
   }).finally(() => {
     setLoading(false)
   })
 }
 
-const Comment = () => {
-  const router = useRouter()
-  const slug = router.query.slug as String[] || []
-  const { isOpen, onOpen, onClose } = useDisclosure({ 'defaultIsOpen': true })
+export default function StarPage({ serverData }) {
   let [loading, setLoading] = useState(false)
   let [done, setDone] = useState(false)
-  const toast = useToast()
   const { data: session, status } = useSession()
-  const { data, error } = useSWR(slug[0] ? 'https://api.github.com/repos/' + slug[0] + '/' + slug[1] : null, fetcher)
+  let [isOpen, setIsOpen] = useState(true)
+  const { data, error } = useSWR('https://api.github.com/repos/' + serverData.full_name, fetcher, { fallbackData: serverData })
+  const title = `Star ${data.full_name}`
 
-  useEffect(() => {
-    if (done === true) {
-      toast({
-        status: "success",
-        title: "Starred successfully"
-      })
-    }
-  }, [done])
+  function submit() {
+    setLoading(true)
+    if (status !== "authenticated") return signIn("github", { callbackUrl: `/star/${data.full_name}` })
+    toast.promise(
+      star(data.full_name, setLoading, setDone),
+      {
+        loading: 'Starring...',
+        success: <b>Starred successfully!</b>,
+        error: <b>Could not star.</b>,
+      }
+    );
+  }
 
   return (
     <>
       <Head>
-        <title>Star {slug.join('/')}</title>
+        <title>{title}</title>
       </Head>
-      <Modal isOpen={isOpen} onClose={onClose} closeOnEsc={false} closeOnOverlayClick={false}>
-        <ModalOverlay />
-        {status === "authenticated" && <ModalContent>
-          <ModalHeader>Star {slug.join('/')}</ModalHeader>
-          <ModalBody>
-            You are about to star <Link href={`https://github.com/` + slug.join('/')} isExternal><Code>{slug.join('/')}</Code></Link>.
-            <br />
-            <br />
-            <Repo query={slug} />
-          </ModalBody>
+      <Transition appear show={isOpen} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={() => console.log("")}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
 
-          <ModalFooter>
-            <ButtonGroup>
-              <Button variant="ghost" onClick={() => router.back()}>Back</Button>
-              <Button colorScheme={done ? "green" : "yellow"} isDisabled={done || data && data.message === 'Not Found'} isLoading={loading} onClick={() => star(slug, setLoading, setDone)}>
-                {done ? <CheckIcon mx={2} /> : "Star"}
-              </Button>
-            </ButtonGroup>
-          </ModalFooter>
-        </ModalContent>}
-        {status === "unauthenticated" && <ModalContent>
-          <ModalHeader>Unauthenticated</ModalHeader>
-          <ModalBody>
-            To continue to star <Link href={`https://github.com/` + slug.join('/')} isExternal><Code>{slug.join('/')}</Code></Link>, please signin with GitHub. You&apos;ll only need to do this once.
-            <br />
-            <br />
-            <Repo query={slug} />
-          </ModalBody>
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-900"
+                  >
+                    Continue to star {data.name}
+                  </Dialog.Title>
+                  <div className="mt-2">
+                    <p className="text-sm text-gray-500 mb-6">
+                      You are about to star the repo {serverData.full_name}.
+                    </p>
+                    <div className='p-5 border rounded-md'>
+                      <h1 className='text-lg font-bold w-3/4 truncate mb-2'>{data.name}</h1>
+                      <p className='mb-4'>{data.description ? data.description : 'No description provided'}</p>
+                      <div className="flex overflow-hidden">
+                        <div className="block">
+                          <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:gray-yellow-300">{data.stargazers_count} stars</span>
+                        </div>
+                        <div className="block">
+                          <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300">{data.language}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-          <ModalFooter>
-            <ButtonGroup>
-              <Button variant="ghost" onClick={() => router.back()}>Back</Button>
-              <Button isDisabled={data && data.message === 'Not Found'} colorScheme={"yellow"} onClick={() => signIn("github", { callbackUrl: `/star/${slug[0]}/${slug[1]}` })}>
-                {"Sign in"}
-              </Button>
-            </ButtonGroup>
-          </ModalFooter>
-        </ModalContent>}
-        {status === "loading" && <ModalContent>
-          <ModalHeader>
-            <Skeleton>
-              Star {slug.join('/')}
-            </Skeleton>
-          </ModalHeader>
-          <ModalBody>
-            <Skeleton>
-              You are about to star <Link href={`https://github.com/` + slug.join('/')} isExternal><Code>{slug.join('/')}</Code></Link>.
-            </Skeleton>
-            <br />
-            <br />
-            <Skeleton>
-              <Repo query={slug} />
-            </Skeleton>
-          </ModalBody>
-
-          <ModalFooter>
-            <ButtonGroup>
-              <Skeleton>
-                <Button variant="ghost">Back</Button>
-              </Skeleton>
-              <Skeleton>
-                <Button colorScheme={done ? "green" : "yellow"} isDisabled={done} isLoading={loading} onClick={() => star(slug, setLoading, setDone)}>
-                  {done ? <CheckIcon mx={2} /> : "Star"}
-                </Button>
-              </Skeleton>
-            </ButtonGroup>
-          </ModalFooter>
-        </ModalContent>}
-      </Modal>
+                  <div className="mt-6 flex justify-end gap-2">
+                    <Button
+                      variant='ghost'
+                    >
+                      Back
+                    </Button>
+                    <Button
+                      onClick={submit}
+                      loading={loading || status === "loading"}
+                    >
+                      {status === "authenticated" ? "Star and return to site" : "Continue with github"}
+                    </Button>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
     </>
   )
 }
 
-export default Comment
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const slug = context.query.slug
+  if (!slug[0] || !slug[1]) return { notFound: true }
+
+  // Fetch data from external API
+  const res = await fetch('https://api.github.com/repos/' + slug[0] + '/' + slug[1])
+  if (res.status === 404) return { notFound: true }
+  const data = await res.json()
+
+  // Pass data to the page via props
+  return { props: { serverData: data } }
+}
+
